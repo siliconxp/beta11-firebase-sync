@@ -6,13 +6,13 @@ import { ToDo } from '../models/todo';
 
 @Injectable()
 export class ToDoActions {
-  static CLEAR_COMPLETED = '[ToDoActions] Clear Completed';
-  clearCompleted(): Action {
+  static ITEM_CREATE = '[ToDoActions] Item Create';
+  itemCreate(item: ToDo): Action {
     return {
-      type: ToDoActions.CLEAR_COMPLETED
+      type: ToDoActions.ITEM_CREATE,
+      payload: item
     };
   }
-
 
 
 
@@ -72,8 +72,6 @@ export class ToDoActions {
       payload: item
     };
   }
-
-
 
   static LOCAL_CREATE = '[ToDoActions] Local Create';
   localCreate(item: ToDo): Action {

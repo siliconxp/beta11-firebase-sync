@@ -37,13 +37,13 @@ export class TodoService {
             });
     }
 
-/*
-    clearCompletedItems() {
-        this.store.dispatch(
-            this.todoActions.clearCompleted()
-        );
-    }
-*/
+    /*
+        clearCompletedItems() {
+            this.store.dispatch(
+                this.todoActions.clearCompleted()
+            );
+        }
+    */
     getData(): Observable<ToDo[]> {
         return this.store.let(TodoSelector.getToDos());
     }
@@ -77,8 +77,8 @@ export class TodoService {
 
     remove(todo: ToDo) {
         if (this.connectedToFirebase) {
-                this.store.dispatch(
-                    this.todoActions.firebaseRemove(todo.$key));
+            this.store.dispatch(
+                this.todoActions.firebaseRemove(todo.$key));
         } else {
             this.store.dispatch(
                 this.todoActions.localRemove(todo.$key));
@@ -86,18 +86,23 @@ export class TodoService {
     }
 
     save(todo: ToDo) {
+        if (todo.$key === '') {
+            this.store.dispatch(
+                this.todoActions.itemCreate(todo));
+        }
+
         if (this.connectedToFirebase) {
             if (todo.$key === '') {
-                this.store.dispatch(
-                    this.todoActions.firebaseCreate(todo));
+ //               this.store.dispatch(
+ //                   this.todoActions.firebaseCreate(todo));
             } else {
                 this.store.dispatch(
                     this.todoActions.firebaseUpdate(todo));
             }
         } else {
             if (todo.$key === '') {
-                this.store.dispatch(
-                    this.todoActions.localCreate(todo));
+ //               this.store.dispatch(
+ //                   this.todoActions.localCreate(todo));
             } else {
                 this.store.dispatch(
                     this.todoActions.localUpdate(todo));

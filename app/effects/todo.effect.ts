@@ -16,6 +16,26 @@ export class ToDoEffects {
     private todoDataService: TodoDataService
   ) { }
 
+  @Effect() itemCreate$ = this.updates$
+    .whenAction(ToDoActions.ITEM_CREATE)
+    .map(x => {
+      return {
+        isConnectedToFirebase: x.state.appFirebase.isConnectedToFirebase,
+        itemToCreate: x.action.payload
+      };
+    })
+    .map(x => {
+      console.log('itemCreate$:isConnectedToFirebase>', x.isConnectedToFirebase);
+      console.log('itemCreate$:itemToCreate>', x.itemToCreate);
+
+      if (x.isConnectedToFirebase) {
+        return this.todoActions.firebaseCreate(x.itemToCreate);
+      } else {
+        return this.todoActions.localCreate(x.itemToCreate);
+      }
+    });
+    // Terminate effect.
+    // .ignoreElements();
 
   @Effect() loadCollection$ = this.updates$
     .whenAction(ToDoActions.FIREBASE_LOAD)

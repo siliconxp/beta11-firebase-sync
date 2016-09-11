@@ -46,7 +46,7 @@ export default function (
 
         // http://bodiddlie.github.io/ng-2-toh-with-ngrx-suite/
         case ToDoActions.LOCAL_CREATE: {
-            const item: ToDo = action.payload;
+            const item: ToDo = assign(action.payload, {});
             item.$key = '##' + Math.random().toString();
 
             item._isDirty = true;
