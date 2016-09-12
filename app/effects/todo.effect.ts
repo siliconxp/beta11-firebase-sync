@@ -5,8 +5,6 @@ import { ToDoActions } from '../actions';
 
 import { TodoDataService } from '../services/todo.data.service';
 import { ToDo } from '../models/todo';
-import { reorderArray } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ToDoEffects {
@@ -16,26 +14,26 @@ export class ToDoEffects {
     private todoDataService: TodoDataService
   ) { }
 
-  @Effect() itemCreate$ = this.updates$
+  @Effect() itemCreateFirebase$ = this.updates$
     .whenAction(ToDoActions.ITEM_CREATE)
-    .map(x => {
-      return {
-        isConnectedToFirebase: x.state.appFirebase.isConnectedToFirebase,
-        itemToCreate: x.action.payload
-      };
-    })
-    .map(x => {
-      console.log('itemCreate$:isConnectedToFirebase>', x.isConnectedToFirebase);
-      console.log('itemCreate$:itemToCreate>', x.itemToCreate);
+    .filter(x => x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemCreateFirebase$:payload>', payload))
+    .map(payload => this.todoActions.firebaseCreate(payload));
+  // Terminate effect.
+  // .ignoreElements();
 
-      if (x.isConnectedToFirebase) {
-        return this.todoActions.firebaseCreate(x.itemToCreate);
-      } else {
-        return this.todoActions.localCreate(x.itemToCreate);
-      }
-    });
-    // Terminate effect.
-    // .ignoreElements();
+  @Effect() itemCreateLocal$ = this.updates$
+    .whenAction(ToDoActions.ITEM_CREATE)
+    .filter(x => !x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemCreateLocal$:payload>', payload))
+    .map(payload => this.todoActions.localCreate(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+
+
 
   @Effect() loadCollection$ = this.updates$
     .whenAction(ToDoActions.FIREBASE_LOAD)
