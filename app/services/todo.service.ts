@@ -37,13 +37,6 @@ export class TodoService {
             });
     }
 
-    /*
-        clearCompletedItems() {
-            this.store.dispatch(
-                this.todoActions.clearCompleted()
-            );
-        }
-    */
     getData(): Observable<ToDo[]> {
         return this.store.let(TodoSelector.getToDos());
     }
@@ -52,7 +45,6 @@ export class TodoService {
     }
 
     firebaseLoad() {
-        // console.log('connectToFirebase');
         this.store.dispatch(
             this.todoActions.firebaseLoad());
     }
@@ -66,13 +58,17 @@ export class TodoService {
     }
 
     reorderItems(indexes: Indexes) {
-        if (this.connectedToFirebase) {
-            this.store.dispatch(
-                this.todoActions.firebaseReorderList(indexes));
-        } else {
-            this.store.dispatch(
-                this.todoActions.localReorderList(indexes));
-        }
+        this.store.dispatch(
+            this.todoActions.itemsReorder(indexes));
+        /*        
+if (this.connectedToFirebase) {
+    this.store.dispatch(
+        this.todoActions.firebaseReorderList(indexes));
+} else {
+    this.store.dispatch(
+        this.todoActions.localReorderList(indexes));
+}
+*/
     }
 
     delete(todo: ToDo) {

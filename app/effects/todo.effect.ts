@@ -50,6 +50,27 @@ export class ToDoEffects {
   // Terminate effect.
   // .ignoreElements()
 
+  @Effect() itemsReorderFirebase$ = this.updates$
+    .whenAction(ToDoActions.ITEMS_REORDER)
+    .filter(x => x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemsReorderFirebase$:payload>', payload))
+    .map(payload => this.todoActions.firebaseReorderList(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+  @Effect() itemsReorderLocal$ = this.updates$
+    .whenAction(ToDoActions.ITEMS_REORDER)
+    .filter(x => !x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemsReorderLocal$:payload>', payload))
+    .map(payload => this.todoActions.localReorderList(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+
+
+
   @Effect() itemUpdateFirebase$ = this.updates$
     .whenAction(ToDoActions.ITEM_UPDATE)
     .filter(x => x.state.appFirebase.isConnectedToFirebase)

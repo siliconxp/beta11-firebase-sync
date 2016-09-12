@@ -30,7 +30,13 @@ export class ToDoActions {
     };
   }
 
-
+  static ITEMS_REORDER = '[ToDoActions] Items reorder';
+  itemsReorder(indexes: Indexes): Action {
+    return {
+      type: ToDoActions.ITEMS_REORDER,
+      payload: indexes
+    };
+  }
 
   static FIREBASE_CREATE = '[ToDoActions] Firebase Create';
   firebaseCreate(item: ToDo): Action {
