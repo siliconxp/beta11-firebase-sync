@@ -10,32 +10,12 @@ import { AppState } from '../reducers';
 import { ToDoActions } from '../actions';
 import { TodoSelector} from '../selectors';
 
-import { AppFirebaseService } from '../services/app-firebase.service';
-
 @Injectable()
 export class TodoService {
-    private connectedToFirebase: boolean = false;
-
     constructor(
-        private appFirebaseService: AppFirebaseService,
         private todoActions: ToDoActions,
         private store: Store<AppState>
-    ) {
-        appFirebaseService.isConnectedToFirebase()
-            .subscribe(isConnectedToFirebase => {
-                console.log('TodoService:isConnectedToFirebase>', isConnectedToFirebase);
-                this.connectedToFirebase = isConnectedToFirebase;
-
-                if (isConnectedToFirebase) {
-                    this.store.dispatch(
-                        this.todoActions.firebaseLoad());
-                } else {
-                    this.store.dispatch(
-                        this.todoActions.firebaseLoadCancel()
-                    );
-                }
-            });
-    }
+    ) { }
 
     getData(): Observable<ToDo[]> {
         return this.store.let(TodoSelector.getToDos());
@@ -60,15 +40,6 @@ export class TodoService {
     reorderItems(indexes: Indexes) {
         this.store.dispatch(
             this.todoActions.itemsReorder(indexes));
-        /*        
-if (this.connectedToFirebase) {
-    this.store.dispatch(
-        this.todoActions.firebaseReorderList(indexes));
-} else {
-    this.store.dispatch(
-        this.todoActions.localReorderList(indexes));
-}
-*/
     }
 
     delete(todo: ToDo) {

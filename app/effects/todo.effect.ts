@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Effect, StateUpdates } from '@ngrx/effects';
 import { AppState } from '../reducers';
+
+import { AppFirebaseActions } from '../actions';
 import { ToDoActions } from '../actions';
 
 import { TodoDataService } from '../services/todo.data.service';
@@ -9,10 +11,19 @@ import { ToDo } from '../models/todo';
 @Injectable()
 export class ToDoEffects {
   constructor(
+    private appFirebaseActions: AppFirebaseActions,
     private updates$: StateUpdates<AppState>,
     private todoActions: ToDoActions,
     private todoDataService: TodoDataService
   ) { }
+
+  @Effect() firebaseConnectSuccess$ = this.updates$
+    .whenAction(AppFirebaseActions.FIREBASE_CONNECT_SUCCESS)
+    .map(() => this.todoActions.firebaseLoad());
+
+  @Effect() firebaseDisconnectSuccess$ = this.updates$
+    .whenAction(AppFirebaseActions.FIREBASE_DISCONNECT_SUCCESS)
+    .map(() => this.todoActions.firebaseLoadCancel());
 
   @Effect() itemCreateFirebase$ = this.updates$
     .whenAction(ToDoActions.ITEM_CREATE)
