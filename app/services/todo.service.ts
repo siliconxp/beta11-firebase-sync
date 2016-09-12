@@ -89,20 +89,9 @@ export class TodoService {
         if (todo.$key === '') {
             this.store.dispatch(
                 this.todoActions.itemCreate(todo));
-        }
-
-        if (this.connectedToFirebase) {
-            if (todo.$key === '') {
-            } else {
-                this.store.dispatch(
-                    this.todoActions.firebaseUpdate(todo));
-            }
         } else {
-            if (todo.$key === '') {
-            } else {
-                this.store.dispatch(
-                    this.todoActions.localUpdate(todo));
-            }
+            this.store.dispatch(
+                this.todoActions.itemUpdate(todo));
         }
     }
 }

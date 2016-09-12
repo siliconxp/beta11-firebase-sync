@@ -14,6 +14,13 @@ export class ToDoActions {
     };
   }
 
+  static ITEM_UPDATE = '[ToDoActions] Item Update';
+  itemUpdate(item: ToDo): Action {
+    return {
+      type: ToDoActions.ITEM_UPDATE,
+      payload: item
+    };
+  }
 
 
 

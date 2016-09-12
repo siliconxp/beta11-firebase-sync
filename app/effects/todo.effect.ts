@@ -32,8 +32,23 @@ export class ToDoEffects {
   // Terminate effect.
   // .ignoreElements();
 
+  @Effect() itemUpdateFirebase$ = this.updates$
+    .whenAction(ToDoActions.ITEM_UPDATE)
+    .filter(x => x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemUpdateFirebase$:payload>', payload))
+    .map(payload => this.todoActions.firebaseUpdate(payload));
+  // Terminate effect.
+  // .ignoreElements();
 
-
+  @Effect() itemUpdateLocal$ = this.updates$
+    .whenAction(ToDoActions.ITEM_UPDATE)
+    .filter(x => !x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemUpdateLocal$:payload>', payload))
+    .map(payload => this.todoActions.localUpdate(payload));
+  // Terminate effect.
+  // .ignoreElements();
 
   @Effect() loadCollection$ = this.updates$
     .whenAction(ToDoActions.FIREBASE_LOAD)
