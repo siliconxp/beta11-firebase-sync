@@ -123,7 +123,7 @@ export class HomePage {
 
   removeItem(item: RemoveItemOutput) {
     console.log('removeItem:item>', item);
-    this.todoService.remove(item);
+    this.todoService.delete(item);
   }
 }
 

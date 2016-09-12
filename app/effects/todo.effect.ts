@@ -32,6 +32,24 @@ export class ToDoEffects {
   // Terminate effect.
   // .ignoreElements();
 
+  @Effect() itemDeleteFirebase$ = this.updates$
+    .whenAction(ToDoActions.ITEM_DELETE)
+    .filter(x => x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemDeleteFirebase$:payload>', payload))
+    .map(payload => this.todoActions.firebaseRemove(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+  @Effect() itemDeleteLocal$ = this.updates$
+    .whenAction(ToDoActions.ITEM_DELETE)
+    .filter(x => !x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemDeleteLocal$:payload>', payload))
+    .map(payload => this.todoActions.localRemove(payload));
+  // Terminate effect.
+  // .ignoreElements()
+
   @Effect() itemUpdateFirebase$ = this.updates$
     .whenAction(ToDoActions.ITEM_UPDATE)
     .filter(x => x.state.appFirebase.isConnectedToFirebase)
@@ -49,6 +67,9 @@ export class ToDoEffects {
     .map(payload => this.todoActions.localUpdate(payload));
   // Terminate effect.
   // .ignoreElements();
+
+
+
 
   @Effect() loadCollection$ = this.updates$
     .whenAction(ToDoActions.FIREBASE_LOAD)

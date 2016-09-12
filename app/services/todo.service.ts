@@ -75,14 +75,9 @@ export class TodoService {
         }
     }
 
-    remove(todo: ToDo) {
-        if (this.connectedToFirebase) {
-            this.store.dispatch(
-                this.todoActions.firebaseRemove(todo.$key));
-        } else {
-            this.store.dispatch(
-                this.todoActions.localRemove(todo.$key));
-        }
+    delete(todo: ToDo) {
+        this.store.dispatch(
+            this.todoActions.itemDelete(todo.$key));
     }
 
     save(todo: ToDo) {

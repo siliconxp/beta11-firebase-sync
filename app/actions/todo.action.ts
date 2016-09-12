@@ -14,6 +14,14 @@ export class ToDoActions {
     };
   }
 
+  static ITEM_DELETE = '[ToDoActions] Item Delete';
+  itemDelete(itemKey: string): Action {
+    return {
+      type: ToDoActions.ITEM_DELETE,
+      payload: itemKey
+    };
+  }
+
   static ITEM_UPDATE = '[ToDoActions] Item Update';
   itemUpdate(item: ToDo): Action {
     return {
