@@ -6,16 +6,37 @@ import { ToDo } from '../models/todo';
 
 @Injectable()
 export class ToDoActions {
-  static CLEAR_COMPLETED = '[ToDoActions] Clear Completed';
-  clearCompleted(): Action {
+  static ITEM_CREATE = '[ToDoActions] Item Create';
+  itemCreate(item: ToDo): Action {
     return {
-      type: ToDoActions.CLEAR_COMPLETED
+      type: ToDoActions.ITEM_CREATE,
+      payload: item
     };
   }
 
+  static ITEM_DELETE = '[ToDoActions] Item Delete';
+  itemDelete(itemKey: string): Action {
+    return {
+      type: ToDoActions.ITEM_DELETE,
+      payload: itemKey
+    };
+  }
 
+  static ITEM_UPDATE = '[ToDoActions] Item Update';
+  itemUpdate(item: ToDo): Action {
+    return {
+      type: ToDoActions.ITEM_UPDATE,
+      payload: item
+    };
+  }
 
-
+  static ITEMS_REORDER = '[ToDoActions] Items reorder';
+  itemsReorder(indexes: Indexes): Action {
+    return {
+      type: ToDoActions.ITEMS_REORDER,
+      payload: indexes
+    };
+  }
 
   static FIREBASE_CREATE = '[ToDoActions] Firebase Create';
   firebaseCreate(item: ToDo): Action {
@@ -72,8 +93,6 @@ export class ToDoActions {
       payload: item
     };
   }
-
-
 
   static LOCAL_CREATE = '[ToDoActions] Local Create';
   localCreate(item: ToDo): Action {

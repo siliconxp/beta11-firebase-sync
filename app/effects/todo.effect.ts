@@ -1,20 +1,106 @@
 import { Injectable } from '@angular/core';
 import { Effect, StateUpdates } from '@ngrx/effects';
 import { AppState } from '../reducers';
+
+import { AppFirebaseActions } from '../actions';
 import { ToDoActions } from '../actions';
 
 import { TodoDataService } from '../services/todo.data.service';
 import { ToDo } from '../models/todo';
-import { reorderArray } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ToDoEffects {
   constructor(
+    private appFirebaseActions: AppFirebaseActions,
     private updates$: StateUpdates<AppState>,
     private todoActions: ToDoActions,
     private todoDataService: TodoDataService
   ) { }
+
+  @Effect() firebaseConnectSuccess$ = this.updates$
+    .whenAction(AppFirebaseActions.FIREBASE_CONNECT_SUCCESS)
+    .map(() => this.todoActions.firebaseLoad());
+
+  @Effect() firebaseDisconnectSuccess$ = this.updates$
+    .whenAction(AppFirebaseActions.FIREBASE_DISCONNECT_SUCCESS)
+    .map(() => this.todoActions.firebaseLoadCancel());
+
+  @Effect() itemCreateFirebase$ = this.updates$
+    .whenAction(ToDoActions.ITEM_CREATE)
+    .filter(x => x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemCreateFirebase$:payload>', payload))
+    .map(payload => this.todoActions.firebaseCreate(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+  @Effect() itemCreateLocal$ = this.updates$
+    .whenAction(ToDoActions.ITEM_CREATE)
+    .filter(x => !x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemCreateLocal$:payload>', payload))
+    .map(payload => this.todoActions.localCreate(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+  @Effect() itemDeleteFirebase$ = this.updates$
+    .whenAction(ToDoActions.ITEM_DELETE)
+    .filter(x => x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemDeleteFirebase$:payload>', payload))
+    .map(payload => this.todoActions.firebaseRemove(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+  @Effect() itemDeleteLocal$ = this.updates$
+    .whenAction(ToDoActions.ITEM_DELETE)
+    .filter(x => !x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemDeleteLocal$:payload>', payload))
+    .map(payload => this.todoActions.localRemove(payload));
+  // Terminate effect.
+  // .ignoreElements()
+
+  @Effect() itemsReorderFirebase$ = this.updates$
+    .whenAction(ToDoActions.ITEMS_REORDER)
+    .filter(x => x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemsReorderFirebase$:payload>', payload))
+    .map(payload => this.todoActions.firebaseReorderList(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+  @Effect() itemsReorderLocal$ = this.updates$
+    .whenAction(ToDoActions.ITEMS_REORDER)
+    .filter(x => !x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemsReorderLocal$:payload>', payload))
+    .map(payload => this.todoActions.localReorderList(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+
+
+
+  @Effect() itemUpdateFirebase$ = this.updates$
+    .whenAction(ToDoActions.ITEM_UPDATE)
+    .filter(x => x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemUpdateFirebase$:payload>', payload))
+    .map(payload => this.todoActions.firebaseUpdate(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+  @Effect() itemUpdateLocal$ = this.updates$
+    .whenAction(ToDoActions.ITEM_UPDATE)
+    .filter(x => !x.state.appFirebase.isConnectedToFirebase)
+    .map(x => x.action.payload)
+    .do(payload => console.log('itemUpdateLocal$:payload>', payload))
+    .map(payload => this.todoActions.localUpdate(payload));
+  // Terminate effect.
+  // .ignoreElements();
+
+
 
 
   @Effect() loadCollection$ = this.updates$

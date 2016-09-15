@@ -75,6 +75,7 @@ export class HomePage {
     this.appFirebaseService.disconnectFromFirebase();
   }
 
+/*
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       // title: 'Modify your album',
@@ -83,7 +84,7 @@ export class HomePage {
           text: 'Clear completed?',
           handler: () => {
             console.log('Clear completed clicked');
-            this.todoService.clearCompletedItems();
+
           }
         }, {
           text: 'Cancel',
@@ -102,7 +103,7 @@ export class HomePage {
 
     popover.onDidDismiss((data: string) => {
       if (data === 'ClearCompleted') {
-        this.todoService.clearCompletedItems();
+
       }
     });
 
@@ -110,7 +111,7 @@ export class HomePage {
       ev: ev
     });
   }
-
+*/
   reorderItems(indexes: ReorderItemsOutput) {
     console.log('reorderItems:indexes>', indexes);
     console.log('reorderItems:indexes.from>', indexes.from);
@@ -122,7 +123,7 @@ export class HomePage {
 
   removeItem(item: RemoveItemOutput) {
     console.log('removeItem:item>', item);
-    this.todoService.remove(item);
+    this.todoService.delete(item);
   }
 }
 

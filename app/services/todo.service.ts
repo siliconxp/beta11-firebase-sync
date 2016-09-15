@@ -10,40 +10,13 @@ import { AppState } from '../reducers';
 import { ToDoActions } from '../actions';
 import { TodoSelector} from '../selectors';
 
-import { AppFirebaseService } from '../services/app-firebase.service';
-
 @Injectable()
 export class TodoService {
-    private connectedToFirebase: boolean = false;
-
     constructor(
-        private appFirebaseService: AppFirebaseService,
         private todoActions: ToDoActions,
         private store: Store<AppState>
-    ) {
-        appFirebaseService.isConnectedToFirebase()
-            .subscribe(isConnectedToFirebase => {
-                console.log('TodoService:isConnectedToFirebase>', isConnectedToFirebase);
-                this.connectedToFirebase = isConnectedToFirebase;
+    ) { }
 
-                if (isConnectedToFirebase) {
-                    this.store.dispatch(
-                        this.todoActions.firebaseLoad());
-                } else {
-                    this.store.dispatch(
-                        this.todoActions.firebaseLoadCancel()
-                    );
-                }
-            });
-    }
-
-/*
-    clearCompletedItems() {
-        this.store.dispatch(
-            this.todoActions.clearCompleted()
-        );
-    }
-*/
     getData(): Observable<ToDo[]> {
         return this.store.let(TodoSelector.getToDos());
     }
@@ -52,7 +25,6 @@ export class TodoService {
     }
 
     firebaseLoad() {
-        // console.log('connectToFirebase');
         this.store.dispatch(
             this.todoActions.firebaseLoad());
     }
@@ -66,42 +38,22 @@ export class TodoService {
     }
 
     reorderItems(indexes: Indexes) {
-        if (this.connectedToFirebase) {
-            this.store.dispatch(
-                this.todoActions.firebaseReorderList(indexes));
-        } else {
-            this.store.dispatch(
-                this.todoActions.localReorderList(indexes));
-        }
+        this.store.dispatch(
+            this.todoActions.itemsReorder(indexes));
     }
 
-    remove(todo: ToDo) {
-        if (this.connectedToFirebase) {
-                this.store.dispatch(
-                    this.todoActions.firebaseRemove(todo.$key));
-        } else {
-            this.store.dispatch(
-                this.todoActions.localRemove(todo.$key));
-        }
+    delete(todo: ToDo) {
+        this.store.dispatch(
+            this.todoActions.itemDelete(todo.$key));
     }
 
     save(todo: ToDo) {
-        if (this.connectedToFirebase) {
-            if (todo.$key === '') {
-                this.store.dispatch(
-                    this.todoActions.firebaseCreate(todo));
-            } else {
-                this.store.dispatch(
-                    this.todoActions.firebaseUpdate(todo));
-            }
+        if (todo.$key === '') {
+            this.store.dispatch(
+                this.todoActions.itemCreate(todo));
         } else {
-            if (todo.$key === '') {
-                this.store.dispatch(
-                    this.todoActions.localCreate(todo));
-            } else {
-                this.store.dispatch(
-                    this.todoActions.localUpdate(todo));
-            }
+            this.store.dispatch(
+                this.todoActions.itemUpdate(todo));
         }
     }
 }
