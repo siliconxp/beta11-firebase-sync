@@ -19,6 +19,10 @@ export class AppFirebaseEffects {
     // Terminate effect.
     // .ignoreElements();
 
+    @Effect() firebaseConnectSuccess$ = this.updates$
+      .whenAction(AppFirebaseActions.FIREBASE_CONNECT_SUCCESS)
+        .map(() => this.appFirebaseActions.firebaseSync());
+
     @Effect() firebaseSync$ = this.updates$
         .whenAction(AppFirebaseActions.FIREBASE_SYNC)
         .map(x => x.state.appFirebase.offlineActions)

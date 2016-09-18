@@ -1,18 +1,17 @@
 # todo
 A todo program with ionic2, ngrx and angularfire.
 
-## Startup
+## Startup - Basic, no sync
 ```
 [AppFirebase] Firebase Disconnect Success
-[ToDoActions] Firebase Load Cancel
+[Todo] Firebase Load Cancel
 
 [AppFirebase] Firebase Connect
 [AppFirebase] Firebase Connect Success
 [AppFirebase] Firebase Sync
 [AppFirebase] Firebase Sync Success
 
-[ToDoActions] Firebase Load
-[ToDoActions] Firebase Load Success
-
+[Todo] Firebase Load
+[Todo] Firebase Load Success
 ```
 

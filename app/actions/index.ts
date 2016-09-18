@@ -1,12 +1,12 @@
 import { AppFirebaseActions } from './app-firebase.action';
-import { ToDoActions } from './todo.action';
+import { TodoActions } from './todo.action';
 
 export {
 AppFirebaseActions,
-ToDoActions
+TodoActions
 };
 
 export default [
   AppFirebaseActions,
-  ToDoActions
+  TodoActions
 ];

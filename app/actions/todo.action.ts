@@ -5,125 +5,125 @@ import { Indexes } from '../models/indexes';
 import { ToDo } from '../models/todo';
 
 @Injectable()
-export class ToDoActions {
-  static ITEM_CREATE = '[ToDoActions] Item Create';
+export class TodoActions {
+  static ITEM_CREATE = '[Todo] Item Create';
   itemCreate(item: ToDo): Action {
     return {
-      type: ToDoActions.ITEM_CREATE,
+      type: TodoActions.ITEM_CREATE,
       payload: item
     };
   }
 
-  static ITEM_DELETE = '[ToDoActions] Item Delete';
+  static ITEM_DELETE = '[Todo] Item Delete';
   itemDelete(itemKey: string): Action {
     return {
-      type: ToDoActions.ITEM_DELETE,
+      type: TodoActions.ITEM_DELETE,
       payload: itemKey
     };
   }
 
-  static ITEM_UPDATE = '[ToDoActions] Item Update';
+  static ITEM_UPDATE = '[Todo] Item Update';
   itemUpdate(item: ToDo): Action {
     return {
-      type: ToDoActions.ITEM_UPDATE,
+      type: TodoActions.ITEM_UPDATE,
       payload: item
     };
   }
 
-  static ITEMS_REORDER = '[ToDoActions] Items reorder';
+  static ITEMS_REORDER = '[Todo] Items reorder';
   itemsReorder(indexes: Indexes): Action {
     return {
-      type: ToDoActions.ITEMS_REORDER,
+      type: TodoActions.ITEMS_REORDER,
       payload: indexes
     };
   }
 
-  static FIREBASE_CREATE = '[ToDoActions] Firebase Create';
+  static FIREBASE_CREATE = '[Todo] Firebase Create';
   firebaseCreate(item: ToDo): Action {
     return {
-      type: ToDoActions.FIREBASE_CREATE,
+      type: TodoActions.FIREBASE_CREATE,
       payload: item
     };
   }
 
-  static FIREBASE_REMOVE = '[ToDoActions] Firebase Remove';
+  static FIREBASE_REMOVE = '[Todo] Firebase Remove';
   firebaseRemove(itemKey: string): Action {
     return {
-      type: ToDoActions.FIREBASE_REMOVE,
+      type: TodoActions.FIREBASE_REMOVE,
       payload: itemKey
     };
   }
 
-  static FIREBASE_LOAD = '[ToDoActions] Firebase Load';
+  static FIREBASE_LOAD = '[Todo] Firebase Load';
   firebaseLoad(): Action {
     return {
-      type: ToDoActions.FIREBASE_LOAD
+      type: TodoActions.FIREBASE_LOAD
     };
   }
 
-  static FIREBASE_LOAD_CANCEL = '[ToDoActions] Firebase Load Cancel';
+  static FIREBASE_LOAD_CANCEL = '[Todo] Firebase Load Cancel';
   firebaseLoadCancel(): Action {
     return {
-      type: ToDoActions.FIREBASE_LOAD_CANCEL
+      type: TodoActions.FIREBASE_LOAD_CANCEL
     };
   }
 
-  static FIREBASE_LOAD_SUCCESS = '[ToDoActions] Firebase Load Success';
+  static FIREBASE_LOAD_SUCCESS = '[Todo] Firebase Load Success';
   FirebaseLoadSuccess(items: ToDo[]): Action {
     return {
-      type: ToDoActions.FIREBASE_LOAD_SUCCESS,
+      type: TodoActions.FIREBASE_LOAD_SUCCESS,
       payload: items
     };
   }
 
-  static FIREBASE_REORDER_LIST = '[ToDoActions] Firebase Reorder List';
+  static FIREBASE_REORDER_LIST = '[Todo] Firebase Reorder List';
   firebaseReorderList(indexes: Indexes): Action {
     return {
-      type: ToDoActions.FIREBASE_REORDER_LIST,
+      type: TodoActions.FIREBASE_REORDER_LIST,
       payload: {
         indexes: indexes
       }
     };
   }
 
-  static FIREBASE_UPDATE = '[ToDoActions] Firebase Update';
+  static FIREBASE_UPDATE = '[Todo] Firebase Update';
   firebaseUpdate(item: ToDo): Action {
     return {
-      type: ToDoActions.FIREBASE_UPDATE,
+      type: TodoActions.FIREBASE_UPDATE,
       payload: item
     };
   }
 
-  static LOCAL_CREATE = '[ToDoActions] Local Create';
+  static LOCAL_CREATE = '[Todo] Local Create';
   localCreate(item: ToDo): Action {
     return {
-      type: ToDoActions.LOCAL_CREATE,
+      type: TodoActions.LOCAL_CREATE,
       payload: item
     };
   }
 
-  static LOCAL_REMOVE = '[ToDoActions] Local Remove';
+  static LOCAL_REMOVE = '[Todo] Local Remove';
   localRemove(itemKey: string): Action {
     return {
-      type: ToDoActions.LOCAL_REMOVE,
+      type: TodoActions.LOCAL_REMOVE,
       payload: itemKey
     };
   }
 
-  static LOCAL_REORDER_LIST = '[ToDoActions] Local Reorder List';
+  static LOCAL_REORDER_LIST = '[Todo] Local Reorder List';
   localReorderList(indexes: Indexes): Action {
     return {
-      type: ToDoActions.LOCAL_REORDER_LIST,
+      type: TodoActions.LOCAL_REORDER_LIST,
       payload: {
         indexes: indexes
       }
     };
   }
 
-  static LOCAL_UPDATE = '[ToDoActions] Local Update';
+  static LOCAL_UPDATE = '[Todo] Local Update';
   localUpdate(item: ToDo): Action {
     return {
-      type: ToDoActions.LOCAL_UPDATE,
+      type: TodoActions.LOCAL_UPDATE,
       payload: item
     };
   }

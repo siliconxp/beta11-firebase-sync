@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { ToDoActions } from '../actions';
+import { TodoActions } from '../actions';
 import { ToDo } from '../models/todo';
 import { assign } from '../utils';
 import { reorderArray } from 'ionic-angular';
@@ -28,13 +28,13 @@ export default function (
     state = initialState,
     action: Action): TodoState {
     switch (action.type) {
-        case ToDoActions.FIREBASE_LOAD: {
+        case TodoActions.FIREBASE_LOAD: {
             return assign(state, {
                 loading: true
             });
         }
 
-        case ToDoActions.FIREBASE_LOAD_SUCCESS: {
+        case TodoActions.FIREBASE_LOAD_SUCCESS: {
             const items: ToDo[] = action.payload;
 
             return assign(state, {
@@ -46,7 +46,7 @@ export default function (
         }
 
         // http://bodiddlie.github.io/ng-2-toh-with-ngrx-suite/
-        case ToDoActions.LOCAL_CREATE: {
+        case TodoActions.LOCAL_CREATE: {
             const item: ToDo = assign(action.payload, {});
 //            item.$key = '##' + Math.random().toString();
            // item.$key = database().ref().push().key;
@@ -61,7 +61,7 @@ export default function (
             });
         }
 
-        case ToDoActions.LOCAL_REORDER_LIST: {
+        case TodoActions.LOCAL_REORDER_LIST: {
             const indexes = action.payload.indexes;
             const reorderedTodos = [...state.todos];
             reorderArray(reorderedTodos, indexes);
@@ -83,7 +83,7 @@ export default function (
             });
         }
 
-        case ToDoActions.LOCAL_UPDATE: {
+        case TodoActions.LOCAL_UPDATE: {
             const item: ToDo = action.payload;
 
             item._isDirty = true;
@@ -107,7 +107,7 @@ export default function (
             });
         }
 
-        case ToDoActions.LOCAL_REMOVE: {
+        case TodoActions.LOCAL_REMOVE: {
             const key: string = action.payload;
             let index = state.todos.findIndex(x => x.$key === key);
             let item = assign(state.todos[index], {});
