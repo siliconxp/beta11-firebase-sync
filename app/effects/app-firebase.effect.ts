@@ -7,7 +7,7 @@ import { AppFirebaseActions } from '../actions';
 export class AppFirebaseEffects {
     constructor(
         private updates$: StateUpdates<AppState>,
-        private actions: AppFirebaseActions
+        private appFirebaseActions: AppFirebaseActions
     ) { }
 
     @Effect() firebaseConnect$ = this.updates$
@@ -15,7 +15,16 @@ export class AppFirebaseEffects {
         .do(x => {
             console.log('Effect:firebaseConnect$:A', x);
         })
-        .map(() => this.actions.firebaseConnectSuccess());
-        // Terminate effect.
-        // .ignoreElements();
+        .map(() => this.appFirebaseActions.firebaseConnectSuccess());
+    // Terminate effect.
+    // .ignoreElements();
+
+    @Effect() firebaseSync$ = this.updates$
+        .whenAction(AppFirebaseActions.FIREBASE_SYNC)
+        .map(x => x.state.appFirebase.offlineActions)
+        .concatMap(offlineActions => {
+            let actions = [...offlineActions];
+            actions.push(this.appFirebaseActions.firebaseSyncSuccess());
+            return actions;
+        });
 }

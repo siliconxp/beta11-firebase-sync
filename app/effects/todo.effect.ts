@@ -96,7 +96,7 @@ export class ToDoEffects {
     .whenAction(AppFirebaseActions.FIREBASE_CONNECT_SUCCESS)
     .concatMap(() => {
       let a = [];
-      a.push(this.todoActions.firebaseSync());
+      a.push(this.appFirebaseActions.firebaseSync());
       a.push(this.todoActions.firebaseLoad());
       return a;
     });
@@ -181,25 +181,7 @@ export class ToDoEffects {
   // .ignoreElements();
 
 
-  @Effect() firebaseSync$ = this.updates$
-    .whenAction(ToDoActions.FIREBASE_SYNC)
-    .map(x => x.state.appFirebase.offlineActions)
-    .concatMap(offlineActions => {
-      let actions = [...offlineActions];
-      /*
-            offlineActions.map(item => {
-              switch (item.type) {
-                case ToDoActions.LOCAL_UPDATE:
-                  {
-                    console.log('ToDoActions.LOCAL_UPDATE');
-                    actions.push(this.todoActions.firebaseUpdate(item.payload));
-                  }
-              }
-            });
-      */
-      actions.push(this.appFirebaseActions.firebaseSyncSuccess());
-      return actions;
-    });
+
 
   @Effect() loadCollection$ = this.updates$
     .whenAction(ToDoActions.FIREBASE_LOAD)

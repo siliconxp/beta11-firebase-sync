@@ -32,7 +32,14 @@ export class AppFirebaseActions {
         };
     }
 
-    static FIREBASE_SYNC_SUCCESS = '[AppFirebaseActions] Firebase Sync Success';
+    static FIREBASE_SYNC = '[AppFirebase] Firebase Sync';
+    firebaseSync(): Action {
+        return {
+            type: AppFirebaseActions.FIREBASE_SYNC
+        };
+    }
+
+    static FIREBASE_SYNC_SUCCESS = '[AppFirebase] Firebase Sync Success';
     firebaseSyncSuccess(): Action {
         return {
             type: AppFirebaseActions.FIREBASE_SYNC_SUCCESS
