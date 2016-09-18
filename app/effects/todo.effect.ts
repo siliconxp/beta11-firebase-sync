@@ -34,6 +34,7 @@ export class ToDoEffects {
   @Effect() offline$ = this.updates$
     .whenAction(
     TodoActions.LOCAL_CREATE,
+    TodoActions.LOCAL_DELETE,
     TodoActions.LOCAL_UPDATE
     )
     .map(x => x.action)
@@ -47,6 +48,13 @@ export class ToDoEffects {
           {
             console.log('ToDoActions.LOCAL_CREATE');
             firebaseAction = this.todoActions.firebaseCreate(action.payload);
+            break;
+          }
+
+        case TodoActions.LOCAL_DELETE:
+          {
+            console.log('ToDoActions.LOCAL_DELETE');
+            firebaseAction = this.todoActions.firebaseDelete(action.payload);
             break;
           }
 

@@ -25,6 +25,7 @@ A todo program with ionic2, ngrx and angularfire.
 [AppFirebase] Firebase Sync
 [Todo] Firebase Create 
 [Todo] Firebase Update
+[Todo] Firebase Delete
 [AppFirebase] Firebase Sync Success
 
 [Todo] Firebase Load
@@ -52,9 +53,12 @@ A todo program with ionic2, ngrx and angularfire.
 [Todo] Firebase Load Success
 ```
 
-
-
-
+## Offline delete
+```
+[Todo] Item Delete 
+[Todo] Local Delete 
+[AppFirebase] Create Offline Action 
+```
 
 ## Online update
 ```
