@@ -48,7 +48,7 @@ A todo program with ionic2, ngrx and angularfire.
 ## Online delete
 ```
 [Todo] Item Delete 
-[Todo] Firebase Remove 
+[Todo] Firebase Delete 
 [Todo] Firebase Load Success
 ```
 

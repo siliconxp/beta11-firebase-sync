@@ -136,7 +136,7 @@ export class ToDoEffects {
     .filter(x => x.state.appFirebase.isConnectedToFirebase)
     .map(x => x.action.payload)
     .do(payload => console.log('itemDeleteFirebase$:payload>', payload))
-    .map(payload => this.todoActions.firebaseRemove(payload));
+    .map(payload => this.todoActions.firebaseDelete(payload));
   // Terminate effect.
   // .ignoreElements();
 
@@ -243,7 +243,7 @@ export class ToDoEffects {
     .ignoreElements();
 
   @Effect() firebaseRemove$ = this.updates$
-    .whenAction(TodoActions.FIREBASE_REMOVE)
+    .whenAction(TodoActions.FIREBASE_DELETE)
     .do(x => {
       this.todoDataService.removeItem(
         x.action.payload);

@@ -46,10 +46,10 @@ export class TodoActions {
     };
   }
 
-  static FIREBASE_REMOVE = '[Todo] Firebase Remove';
-  firebaseRemove(itemKey: string): Action {
+  static FIREBASE_DELETE = '[Todo] Firebase Delete';
+  firebaseDelete(itemKey: string): Action {
     return {
-      type: TodoActions.FIREBASE_REMOVE,
+      type: TodoActions.FIREBASE_DELETE,
       payload: itemKey
     };
   }
