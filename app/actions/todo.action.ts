@@ -102,10 +102,10 @@ export class TodoActions {
     };
   }
 
-  static LOCAL_REMOVE = '[Todo] Local Remove';
-  localRemove(itemKey: string): Action {
+  static LOCAL_DELETE = '[Todo] Local Delete';
+  localDelete(itemKey: string): Action {
     return {
-      type: TodoActions.LOCAL_REMOVE,
+      type: TodoActions.LOCAL_DELETE,
       payload: itemKey
     };
   }

@@ -145,7 +145,7 @@ export class ToDoEffects {
     .filter(x => !x.state.appFirebase.isConnectedToFirebase)
     .map(x => x.action.payload)
     .do(payload => console.log('itemDeleteLocal$:payload>', payload))
-    .map(payload => this.todoActions.localRemove(payload));
+    .map(payload => this.todoActions.localDelete(payload));
   // Terminate effect.
   // .ignoreElements()
 

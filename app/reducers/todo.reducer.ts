@@ -107,7 +107,7 @@ export default function (
             });
         }
 
-        case TodoActions.LOCAL_REMOVE: {
+        case TodoActions.LOCAL_DELETE: {
             const key: string = action.payload;
             let index = state.todos.findIndex(x => x.$key === key);
             let item = assign(state.todos[index], {});
