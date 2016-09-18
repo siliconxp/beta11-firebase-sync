@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Effect, StateUpdates } from '@ngrx/effects';
 import { AppState } from '../reducers';
+import { Store } from '@ngrx/store';
 
 import { AppFirebaseActions } from '../actions';
 import { ToDoActions } from '../actions';
 
 import { TodoDataService } from '../services/todo.data.service';
 import { ToDo } from '../models/todo';
+import { Action } from '@ngrx/store';
+
+import { Observable } from 'rxjs/Observable';
+import { assign } from '../utils';
 
 @Injectable()
 export class ToDoEffects {
@@ -14,12 +19,87 @@ export class ToDoEffects {
     private appFirebaseActions: AppFirebaseActions,
     private updates$: StateUpdates<AppState>,
     private todoActions: ToDoActions,
-    private todoDataService: TodoDataService
+    private todoDataService: TodoDataService,
+    private store: Store<AppState>
   ) { }
+  /*
+          switch (item.type) {
+            case ToDoActions.LOCAL_UPDATE:
+              {
+                console.log('ToDoActions.LOCAL_UPDATE');
+                actions.push(this.todoActions.firebaseUpdate(item.payload));
+              }
+          }
+  */
+  @Effect() offline$ = this.updates$
+    .whenAction(
+    ToDoActions.LOCAL_CREATE,
+    ToDoActions.LOCAL_UPDATE
+    )
+    .map(x => x.action)
+    .do(action => console.log('offline$:action>', action))
+    .map(action => {
+      let firebaseAction;
 
+      // Convert to firebase actions.
+      switch (action.type) {
+        case ToDoActions.LOCAL_CREATE:
+          {
+            console.log('ToDoActions.LOCAL_CREATE');
+            firebaseAction = this.todoActions.firebaseCreate(action.payload);
+            break;
+          }
+
+        case ToDoActions.LOCAL_UPDATE:
+          {
+            console.log('ToDoActions.LOCAL_UPDATE');
+            firebaseAction = this.todoActions.firebaseUpdate(action.payload);
+            break;
+          }
+      }
+      return this.appFirebaseActions.createOfflineAction(firebaseAction);
+    });
+
+
+  /*
+    @Effect() offline$ = this.updates$
+      .whenAction(
+      ToDoActions.LOCAL_CREATE,
+      ToDoActions.LOCAL_UPDATE
+      )
+      .map(x => x.action)
+      .do(action => console.log('offline$:action>', action))
+      .map(action => this.appFirebaseActions.createOfflineAction(action));
+    // Terminate effect.
+    // .ignoreElements();
+  */
+
+  /* working
+    @Effect() firebaseConnectSuccess$ = this.updates$
+      .whenAction(AppFirebaseActions.FIREBASE_CONNECT_SUCCESS)
+      .mergeMap(() => Observable.concat(
+        Observable.of(this.todoActions.firebaseSync()),
+        Observable.of(this.todoActions.firebaseLoad())
+        ));
+  */
+  /* also works
+    @Effect() firebaseConnectSuccess$ = this.updates$
+      .whenAction(AppFirebaseActions.FIREBASE_CONNECT_SUCCESS)
+      .mergeMap(() => {
+        let a = [];
+        a.push(this.todoActions.firebaseSync());
+        a.push(this.todoActions.firebaseLoad());
+        return a;
+      });
+  */
   @Effect() firebaseConnectSuccess$ = this.updates$
     .whenAction(AppFirebaseActions.FIREBASE_CONNECT_SUCCESS)
-    .map(() => this.todoActions.firebaseLoad());
+    .concatMap(() => {
+      let a = [];
+      a.push(this.todoActions.firebaseSync());
+      a.push(this.todoActions.firebaseLoad());
+      return a;
+    });
 
   @Effect() firebaseDisconnectSuccess$ = this.updates$
     .whenAction(AppFirebaseActions.FIREBASE_DISCONNECT_SUCCESS)
@@ -101,15 +181,49 @@ export class ToDoEffects {
   // .ignoreElements();
 
 
-
+  @Effect() firebaseSync$ = this.updates$
+    .whenAction(ToDoActions.FIREBASE_SYNC)
+    .map(x => x.state.appFirebase.offlineActions)
+    .concatMap(offlineActions => {
+      let actions = [...offlineActions];
+      /*
+            offlineActions.map(item => {
+              switch (item.type) {
+                case ToDoActions.LOCAL_UPDATE:
+                  {
+                    console.log('ToDoActions.LOCAL_UPDATE');
+                    actions.push(this.todoActions.firebaseUpdate(item.payload));
+                  }
+              }
+            });
+      */
+      actions.push(this.appFirebaseActions.firebaseSyncSuccess());
+      return actions;
+    });
 
   @Effect() loadCollection$ = this.updates$
     .whenAction(ToDoActions.FIREBASE_LOAD)
     .do(x => {
       console.log('Effect:loadCollection$:A', x);
-      this.todoDataService.syncWithFirebase(x.state.todo);
+      // this.todoDataService.syncWithFirebase(x.state.todo);
+
+      /*      
+            let actions: Action[] = [];
+      
+            x.state.appFirebase.offlineActions.map(item => {
+              switch (item.type) {
+                case ToDoActions.LOCAL_UPDATE:
+                  {
+                    console.log('ToDoActions.LOCAL_UPDATE');
+                    this.store.dispatch(
+                      this.todoActions.firebaseUpdate(item.payload));
+                  }
+              }
+            });
+      
+            return actions;
+      */
     })
-    //    .filter(x => x.state.login.isAuthenticated)
 
     // Watch database node and get items.
     .switchMap(x => this.todoDataService

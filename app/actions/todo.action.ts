@@ -86,6 +86,13 @@ export class ToDoActions {
     };
   }
 
+  static FIREBASE_SYNC = '[ToDoActions] Firebase Sync';
+  firebaseSync(): Action {
+    return {
+      type: ToDoActions.FIREBASE_SYNC
+    };
+  }
+
   static FIREBASE_UPDATE = '[ToDoActions] Firebase Update';
   firebaseUpdate(item: ToDo): Action {
     return {

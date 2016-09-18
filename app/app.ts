@@ -62,7 +62,7 @@ class MyApp {
     connectedRef.on('value', snap => {
       let isOnline: boolean = snap.val();
 
-      console.log('isOnline>', isOnline);
+      console.log('isOnline>', isOnline, database().ref().push().key);
 
       if (isOnline) {
          this.appFirebaseService.connectToFirebase();

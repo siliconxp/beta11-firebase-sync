@@ -5,6 +5,7 @@ import { ToDoActions } from '../actions';
 import { ToDo } from '../models/todo';
 import { assign } from '../utils';
 import { reorderArray } from 'ionic-angular';
+import { database } from 'firebase';
 
 export interface TodoState {
     loaded: boolean;
@@ -47,7 +48,8 @@ export default function (
         // http://bodiddlie.github.io/ng-2-toh-with-ngrx-suite/
         case ToDoActions.LOCAL_CREATE: {
             const item: ToDo = assign(action.payload, {});
-            item.$key = '##' + Math.random().toString();
+//            item.$key = '##' + Math.random().toString();
+           // item.$key = database().ref().push().key;
 
             item._isDirty = true;
             item._isCreated = true;

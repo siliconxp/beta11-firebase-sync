@@ -21,7 +21,8 @@ export class TodoDataService {
 
     create(todo: ToDo) {
         console.log('create>', todo);
-         this.fb_CurrentTodos.push(toFirebaseTodo(todo));
+         // this.fb_CurrentTodos.push(toFirebaseTodo(todo));
+        this.fb_CurrentTodos.update(todo.$key, toFirebaseTodo(todo));         
     }
 
     getData(): Observable<ToDo[]> {

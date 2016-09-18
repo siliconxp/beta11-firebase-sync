@@ -3,6 +3,14 @@ import { Action } from '@ngrx/store';
 
 @Injectable()
 export class AppFirebaseActions {
+    static CREATE_OFFLINE_ACTION = '[AppFirebase] Create Offline Action';
+    createOfflineAction(action: Action): Action {
+        return {
+            type: AppFirebaseActions.CREATE_OFFLINE_ACTION,
+            payload: action
+        };
+    }
+
     static FIREBASE_CONNECT = '[AppFirebase] Firebase Connect';
     firebaseConnect(): Action {
         return {
@@ -21,6 +29,13 @@ export class AppFirebaseActions {
     firebaseDisconnectSuccess(): Action {
         return {
             type: AppFirebaseActions.FIREBASE_DISCONNECT_SUCCESS
+        };
+    }
+
+    static FIREBASE_SYNC_SUCCESS = '[AppFirebaseActions] Firebase Sync Success';
+    firebaseSyncSuccess(): Action {
+        return {
+            type: AppFirebaseActions.FIREBASE_SYNC_SUCCESS
         };
     }
 }
