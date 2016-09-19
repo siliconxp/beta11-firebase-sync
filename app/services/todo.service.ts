@@ -7,13 +7,14 @@ import { Indexes } from '../models/indexes';
 import { ToDo } from '../models/todo';
 
 import { AppState } from '../reducers';
-import { ToDoActions } from '../actions';
+import { TodoActions } from '../actions';
 import { TodoSelector} from '../selectors';
+import { database } from 'firebase';
 
 @Injectable()
 export class TodoService {
     constructor(
-        private todoActions: ToDoActions,
+        private todoActions: TodoActions,
         private store: Store<AppState>
     ) { }
 
@@ -49,6 +50,8 @@ export class TodoService {
 
     save(todo: ToDo) {
         if (todo.$key === '') {
+            todo.$key = database().ref().push().key;
+
             this.store.dispatch(
                 this.todoActions.itemCreate(todo));
         } else {
