@@ -5,7 +5,6 @@ import { TodoActions } from '../actions';
 import { ToDo } from '../models/todo';
 import { assign } from '../utils';
 import { reorderArray } from 'ionic-angular';
-import { database } from 'firebase';
 
 export interface TodoState {
     loaded: boolean;

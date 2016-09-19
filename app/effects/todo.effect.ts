@@ -8,10 +8,6 @@ import { TodoActions } from '../actions';
 
 import { TodoDataService } from '../services/todo.data.service';
 import { ToDo } from '../models/todo';
-import { Action } from '@ngrx/store';
-
-import { Observable } from 'rxjs/Observable';
-import { assign } from '../utils';
 
 @Injectable()
 export class ToDoEffects {
